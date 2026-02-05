@@ -1,0 +1,567 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<designSpec version="1.0" createdAt="2026-01-28">
+
+  <meta>
+    <projectName>유지보수 관리 시스템</projectName>
+    <designSystem>Apple iOS Style</designSystem>
+    <framework>Streamlit</framework>
+    <themeMode>light-only</themeMode>
+  </meta>
+
+  <!-- ========================================== -->
+  <!-- 색상 팔레트 (Color Palette)                -->
+  <!-- ========================================== -->
+  <colors>
+    <primary>
+      <color name="apple-blue" hex="#007AFF" usage="주요 액션, 링크, 활성 상태"/>
+      <color name="apple-green" hex="#34C759" usage="성공, 확정, 완료 상태"/>
+      <color name="apple-red" hex="#FF3B30" usage="오류, 취소, 삭제"/>
+      <color name="apple-orange" hex="#FF9500" usage="경고, 주의"/>
+    </primary>
+
+    <grayscale>
+      <color name="text-primary" hex="#1C1C1E" usage="주요 텍스트"/>
+      <color name="text-secondary" hex="#8E8E93" usage="보조 텍스트, 레이블"/>
+      <color name="gray-2" hex="#AEAEB2" usage="비활성 텍스트"/>
+      <color name="gray-3" hex="#C7C7CC" usage="테두리 (입력 필드)"/>
+      <color name="gray-4" hex="#D1D1D6" usage="구분선"/>
+      <color name="gray-5" hex="#E5E5EA" usage="카드 테두리"/>
+      <color name="gray-6" hex="#F2F2F7" usage="배경 (secondary)"/>
+    </grayscale>
+
+    <background>
+      <color name="bg-primary" hex="#FFFFFF" usage="메인 배경"/>
+      <color name="bg-secondary" hex="#F2F2F7" usage="사이드바, 섹션 배경"/>
+    </background>
+  </colors>
+
+  <!-- ========================================== -->
+  <!-- 타이포그래피 (Typography)                  -->
+  <!-- ========================================== -->
+  <typography>
+    <fontFamily>
+      <primary>-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', sans-serif</primary>
+    </fontFamily>
+
+    <headings>
+      <h1 size="34px" weight="600" letterSpacing="-0.5px"/>
+      <h2 size="22px" weight="600" letterSpacing="-0.3px"/>
+      <h3 size="17px" weight="600" letterSpacing="0"/>
+    </headings>
+
+    <body>
+      <regular size="15px" weight="400" lineHeight="1.5"/>
+      <small size="13px" weight="400" lineHeight="1.4"/>
+      <caption size="11px" weight="400" lineHeight="1.3"/>
+    </body>
+
+    <labels>
+      <default size="14px" weight="500" color="#8E8E93"/>
+    </labels>
+  </typography>
+
+  <!-- ========================================== -->
+  <!-- 간격 및 여백 (Spacing)                     -->
+  <!-- ========================================== -->
+  <spacing>
+    <scale>
+      <space name="xs" value="4px"/>
+      <space name="sm" value="8px"/>
+      <space name="md" value="16px"/>
+      <space name="lg" value="24px"/>
+      <space name="xl" value="32px"/>
+      <space name="xxl" value="48px"/>
+    </scale>
+
+    <components>
+      <cardPadding>20px</cardPadding>
+      <formPadding>24px</formPadding>
+      <listItemPadding>14px 16px</listItemPadding>
+      <buttonPadding>12px 24px</buttonPadding>
+      <sectionGap>24px</sectionGap>
+    </components>
+  </spacing>
+
+  <!-- ========================================== -->
+  <!-- 모서리 반경 (Border Radius)                -->
+  <!-- ========================================== -->
+  <borderRadius>
+    <radius name="sm" value="8px" usage="탭, 작은 버튼"/>
+    <radius name="md" value="12px" usage="카드, 입력 필드, 리스트 아이템"/>
+    <radius name="lg" value="16px" usage="큰 카드, 폼 컨테이너"/>
+    <radius name="xl" value="20px" usage="모달, 배지 (pill)"/>
+    <radius name="full" value="50%" usage="원형 아이콘, 상태 도트"/>
+  </borderRadius>
+
+  <!-- ========================================== -->
+  <!-- 그림자 (Shadows)                           -->
+  <!-- ========================================== -->
+  <shadows>
+    <shadow name="sm" value="0 1px 3px rgba(0, 0, 0, 0.08)" usage="카드 기본"/>
+    <shadow name="md" value="0 4px 12px rgba(0, 0, 0, 0.10)" usage="호버 상태, 드롭다운"/>
+    <shadow name="lg" value="0 8px 24px rgba(0, 0, 0, 0.12)" usage="모달, 팝업"/>
+    <shadow name="focus" value="0 0 0 3px rgba(0, 122, 255, 0.2)" usage="포커스 링"/>
+  </shadows>
+
+  <!-- ========================================== -->
+  <!-- 이모지 → 배지 변환 매핑                     -->
+  <!-- ========================================== -->
+  <emojiMapping>
+    <status>
+      <mapping emoji="📝" status="draft" label="초안">
+        <badge type="dot" color="#8E8E93" size="10px"/>
+      </mapping>
+      <mapping emoji="✅" status="confirmed" label="확정">
+        <badge type="dot" color="#34C759" size="10px"/>
+      </mapping>
+      <mapping emoji="🔒" status="locked" label="잠금">
+        <badge type="dot" color="#007AFF" size="10px"/>
+      </mapping>
+      <mapping emoji="❌" status="cancelled" label="취소">
+        <badge type="dot" color="#FF3B30" size="10px"/>
+      </mapping>
+    </status>
+
+    <alerts>
+      <mapping emoji="❌" level="error" label="오류">
+        <badge type="pill" bgColor="rgba(255, 59, 48, 0.15)" textColor="#FF3B30"/>
+      </mapping>
+      <mapping emoji="⚠️" level="warning" label="경고">
+        <badge type="pill" bgColor="rgba(255, 149, 0, 0.15)" textColor="#FF9500"/>
+      </mapping>
+      <mapping emoji="ℹ️" level="info" label="정보">
+        <badge type="pill" bgColor="rgba(0, 122, 255, 0.15)" textColor="#007AFF"/>
+      </mapping>
+      <mapping emoji="✓" level="success" label="성공">
+        <badge type="pill" bgColor="rgba(52, 199, 89, 0.15)" textColor="#34C759"/>
+      </mapping>
+    </alerts>
+  </emojiMapping>
+
+  <!-- ========================================== -->
+  <!-- 컴포넌트 스타일 (Components)                -->
+  <!-- ========================================== -->
+  <components>
+
+    <card>
+      <style>
+        <background>#FFFFFF</background>
+        <borderRadius>16px</borderRadius>
+        <border>1px solid #E5E5EA</border>
+        <boxShadow>0 1px 3px rgba(0, 0, 0, 0.08)</boxShadow>
+        <padding>20px</padding>
+        <margin>12px 0</margin>
+      </style>
+      <hoverStyle>
+        <boxShadow>0 4px 12px rgba(0, 0, 0, 0.1)</boxShadow>
+        <transition>all 0.2s ease</transition>
+      </hoverStyle>
+    </card>
+
+    <button>
+      <primary>
+        <background>#007AFF</background>
+        <color>#FFFFFF</color>
+        <borderRadius>10px</borderRadius>
+        <padding>12px 24px</padding>
+        <fontWeight>500</fontWeight>
+        <border>none</border>
+      </primary>
+      <primaryHover>
+        <background>#0056CC</background>
+        <boxShadow>0 4px 12px rgba(0, 122, 255, 0.3)</boxShadow>
+      </primaryHover>
+      <secondary>
+        <background>#E5E5EA</background>
+        <color>#1C1C1E</color>
+        <borderRadius>10px</borderRadius>
+        <padding>12px 24px</padding>
+        <fontWeight>500</fontWeight>
+        <border>none</border>
+      </secondary>
+      <secondaryHover>
+        <background>#D1D1D6</background>
+      </secondaryHover>
+    </button>
+
+    <input>
+      <style>
+        <borderRadius>10px</borderRadius>
+        <border>1px solid #C7C7CC</border>
+        <padding>12px</padding>
+        <fontSize>15px</fontSize>
+        <transition>border-color 0.2s ease, box-shadow 0.2s ease</transition>
+      </style>
+      <focusStyle>
+        <borderColor>#007AFF</borderColor>
+        <boxShadow>0 0 0 3px rgba(0, 122, 255, 0.2)</boxShadow>
+      </focusStyle>
+    </input>
+
+    <tabs>
+      <container>
+        <background>#F2F2F7</background>
+        <padding>4px</padding>
+        <borderRadius>10px</borderRadius>
+        <gap>8px</gap>
+      </container>
+      <tab>
+        <borderRadius>8px</borderRadius>
+        <padding>10px 20px</padding>
+        <fontWeight>500</fontWeight>
+      </tab>
+      <activeTab>
+        <background>#FFFFFF</background>
+        <boxShadow>0 1px 3px rgba(0, 0, 0, 0.1)</boxShadow>
+      </activeTab>
+    </tabs>
+
+    <listItem>
+      <style>
+        <display>flex</display>
+        <justifyContent>space-between</justifyContent>
+        <alignItems>center</alignItems>
+        <padding>14px 16px</padding>
+        <background>#FFFFFF</background>
+        <borderRadius>12px</borderRadius>
+        <border>1px solid #E5E5EA</border>
+        <margin>6px 0</margin>
+      </style>
+      <hoverStyle>
+        <background>#F2F2F7</background>
+        <transform>translateY(-1px)</transform>
+        <transition>all 0.2s ease</transition>
+      </hoverStyle>
+    </listItem>
+
+    <metric>
+      <style>
+        <background>#FFFFFF</background>
+        <borderRadius>12px</borderRadius>
+        <padding>16px 20px</padding>
+        <border>1px solid #E5E5EA</border>
+        <boxShadow>0 1px 3px rgba(0, 0, 0, 0.05)</boxShadow>
+      </style>
+      <label>
+        <fontSize>13px</fontSize>
+        <color>#8E8E93</color>
+        <fontWeight>500</fontWeight>
+        <marginBottom>4px</marginBottom>
+      </label>
+      <value>
+        <fontSize>28px</fontSize>
+        <fontWeight>600</fontWeight>
+        <color>#1C1C1E</color>
+      </value>
+    </metric>
+
+    <alert>
+      <style>
+        <display>flex</display>
+        <alignItems>flex-start</alignItems>
+        <padding>14px 16px</padding>
+        <borderRadius>12px</borderRadius>
+        <borderLeft>4px solid</borderLeft>
+        <margin>8px 0</margin>
+      </style>
+      <variants>
+        <success bgColor="rgba(52, 199, 89, 0.1)" borderColor="#34C759"/>
+        <warning bgColor="rgba(255, 149, 0, 0.1)" borderColor="#FF9500"/>
+        <error bgColor="rgba(255, 59, 48, 0.1)" borderColor="#FF3B30"/>
+        <info bgColor="rgba(0, 122, 255, 0.1)" borderColor="#007AFF"/>
+      </variants>
+    </alert>
+
+    <sidebar>
+      <style>
+        <background>#F2F2F7</background>
+        <borderRight>1px solid #E5E5EA</borderRight>
+      </style>
+      <menuItem>
+        <padding>12px 16px</padding>
+        <borderRadius>10px</borderRadius>
+        <margin>4px 0</margin>
+        <transition>background-color 0.2s ease</transition>
+      </menuItem>
+      <menuItemHover>
+        <background>rgba(0, 122, 255, 0.1)</background>
+      </menuItemHover>
+    </sidebar>
+
+    <form>
+      <style>
+        <background>#FFFFFF</background>
+        <borderRadius>16px</borderRadius>
+        <padding>24px</padding>
+        <border>1px solid #E5E5EA</border>
+        <boxShadow>0 1px 3px rgba(0, 0, 0, 0.05)</boxShadow>
+      </style>
+    </form>
+
+    <dataTable>
+      <container>
+        <borderRadius>12px</borderRadius>
+        <overflow>hidden</overflow>
+        <border>1px solid #E5E5EA</border>
+      </container>
+      <header>
+        <background>#F2F2F7</background>
+        <fontWeight>600</fontWeight>
+        <padding>12px 16px</padding>
+      </header>
+      <cell>
+        <padding>12px 16px</padding>
+        <borderBottom>1px solid #F2F2F7</borderBottom>
+      </cell>
+    </dataTable>
+
+  </components>
+
+  <!-- ========================================== -->
+  <!-- Streamlit 설정 (config.toml)               -->
+  <!-- ========================================== -->
+  <streamlitConfig>
+    <theme>
+      <primaryColor>#007AFF</primaryColor>
+      <backgroundColor>#FFFFFF</backgroundColor>
+      <secondaryBackgroundColor>#F2F2F7</secondaryBackgroundColor>
+      <textColor>#1C1C1E</textColor>
+      <font>sans serif</font>
+    </theme>
+  </streamlitConfig>
+
+  <!-- ========================================== -->
+  <!-- 파일 구조 (File Structure)                  -->
+  <!-- ========================================== -->
+  <fileStructure>
+    <newFiles>
+      <file path=".streamlit/config.toml" type="config">Streamlit 테마 설정</file>
+      <file path="ui/styles/__init__.py" type="module">스타일 모듈 초기화</file>
+      <file path="ui/styles/apple_theme.py" type="module">CSS 정의 및 주입 함수</file>
+      <file path="ui/styles/components.py" type="module">재사용 가능한 스타일 컴포넌트</file>
+    </newFiles>
+    <modifyFiles>
+      <file path="app.py">전역 스타일 주입, 대시보드 스타일</file>
+      <file path="ui/contract_page.py">계약 관리 페이지 스타일</file>
+      <file path="ui/billing_page.py">청구 생성 페이지 스타일</file>
+      <file path="ui/outsourcing_page.py">외주 관리 페이지 스타일</file>
+      <file path="ui/validation_page.py">검증/경고 페이지 스타일</file>
+      <file path="ui/report_page.py">보고서 페이지 스타일</file>
+      <file path="ui/settings_page.py">설정 페이지 스타일</file>
+    </modifyFiles>
+  </fileStructure>
+
+  <!-- ========================================== -->
+  <!-- 검증 체크리스트 (Validation Checklist)      -->
+  <!-- ========================================== -->
+  <validationChecklist>
+
+    <category name="전역 스타일">
+      <item id="V001" priority="critical">
+        <description>Apple 폰트 패밀리 적용 확인</description>
+        <expected>-apple-system, SF Pro 계열 폰트 렌더링</expected>
+        <testMethod>개발자 도구에서 computed font-family 확인</testMethod>
+      </item>
+      <item id="V002" priority="critical">
+        <description>라이트 모드 배경색 적용</description>
+        <expected>메인 배경 #FFFFFF, 사이드바 #F2F2F7</expected>
+        <testMethod>앱 실행 후 배경색 시각적 확인</testMethod>
+      </item>
+      <item id="V003" priority="high">
+        <description>기본 텍스트 색상 적용</description>
+        <expected>주요 텍스트 #1C1C1E</expected>
+        <testMethod>본문 텍스트 색상 확인</testMethod>
+      </item>
+    </category>
+
+    <category name="사이드바">
+      <item id="V004" priority="high">
+        <description>사이드바 배경 스타일</description>
+        <expected>#F2F2F7 배경, 우측 테두리</expected>
+        <testMethod>사이드바 영역 확인</testMethod>
+      </item>
+      <item id="V005" priority="medium">
+        <description>메뉴 아이템 호버 효과</description>
+        <expected>호버 시 파란색 반투명 배경</expected>
+        <testMethod>메뉴 위에 마우스 오버</testMethod>
+      </item>
+    </category>
+
+    <category name="버튼">
+      <item id="V006" priority="critical">
+        <description>Primary 버튼 스타일</description>
+        <expected>파란색 배경 #007AFF, 흰색 텍스트, 둥근 모서리</expected>
+        <testMethod>청구 생성, Import 실행 등 주요 버튼 확인</testMethod>
+      </item>
+      <item id="V007" priority="high">
+        <description>버튼 호버 효과</description>
+        <expected>어두운 파란색 + 그림자</expected>
+        <testMethod>버튼 위에 마우스 오버</testMethod>
+      </item>
+      <item id="V008" priority="medium">
+        <description>Secondary 버튼 스타일</description>
+        <expected>회색 배경 #E5E5EA, 검은 텍스트</expected>
+        <testMethod>보조 액션 버튼 확인</testMethod>
+      </item>
+    </category>
+
+    <category name="입력 필드">
+      <item id="V009" priority="high">
+        <description>텍스트 입력 필드 스타일</description>
+        <expected>둥근 모서리 10px, 회색 테두리</expected>
+        <testMethod>검색, 등록 폼 입력 필드 확인</testMethod>
+      </item>
+      <item id="V010" priority="medium">
+        <description>입력 필드 포커스 스타일</description>
+        <expected>파란색 테두리 + 파란색 글로우</expected>
+        <testMethod>입력 필드 클릭하여 포커스</testMethod>
+      </item>
+    </category>
+
+    <category name="카드 및 컨테이너">
+      <item id="V011" priority="critical">
+        <description>카드 컴포넌트 스타일</description>
+        <expected>흰색 배경, 16px 둥근 모서리, 은은한 그림자</expected>
+        <testMethod>계약 목록, 청구 목록 카드 확인</testMethod>
+      </item>
+      <item id="V012" priority="high">
+        <description>폼 컨테이너 스타일</description>
+        <expected>흰색 배경, 16px 둥근 모서리, 테두리</expected>
+        <testMethod>등록 폼 영역 확인</testMethod>
+      </item>
+      <item id="V013" priority="medium">
+        <description>카드 호버 효과</description>
+        <expected>그림자 강화, 미세한 상승 효과</expected>
+        <testMethod>카드 위에 마우스 오버</testMethod>
+      </item>
+    </category>
+
+    <category name="탭">
+      <item id="V014" priority="high">
+        <description>탭 컨테이너 스타일</description>
+        <expected>회색 배경 #F2F2F7, 둥근 모서리</expected>
+        <testMethod>계약 관리, 청구 생성 등 탭 UI 확인</testMethod>
+      </item>
+      <item id="V015" priority="high">
+        <description>활성 탭 스타일</description>
+        <expected>흰색 배경, 그림자</expected>
+        <testMethod>선택된 탭 시각적 구분 확인</testMethod>
+      </item>
+    </category>
+
+    <category name="메트릭/통계">
+      <item id="V016" priority="critical">
+        <description>통계 카드 스타일</description>
+        <expected>흰색 배경, 작은 레이블, 큰 숫자 값</expected>
+        <testMethod>대시보드, 보고서 페이지 메트릭 확인</testMethod>
+      </item>
+      <item id="V017" priority="high">
+        <description>메트릭 값 폰트 크기</description>
+        <expected>28px, 굵은 폰트 (600)</expected>
+        <testMethod>활성 계약 수, 청구 금액 등 확인</testMethod>
+      </item>
+    </category>
+
+    <category name="이모지 → 배지 변환">
+      <item id="V018" priority="critical">
+        <description>상태 이모지 제거 확인</description>
+        <expected>📝✅🔒❌ 이모지가 더 이상 표시되지 않음</expected>
+        <testMethod>청구 목록에서 상태 표시 확인</testMethod>
+      </item>
+      <item id="V019" priority="critical">
+        <description>상태 도트 배지 적용</description>
+        <expected>회색/초록/파란/빨간 원형 도트로 상태 표시</expected>
+        <testMethod>청구 목록 각 항목의 상태 인디케이터 확인</testMethod>
+      </item>
+      <item id="V020" priority="high">
+        <description>경고 레벨 배지 적용</description>
+        <expected>오류/경고/정보 별 색상 배지 표시</expected>
+        <testMethod>검증/경고 페이지에서 경고 목록 확인</testMethod>
+      </item>
+    </category>
+
+    <category name="알림 메시지">
+      <item id="V021" priority="high">
+        <description>성공 메시지 스타일</description>
+        <expected>초록색 좌측 테두리, 연한 초록 배경</expected>
+        <testMethod>데이터 저장 성공 시 메시지 확인</testMethod>
+      </item>
+      <item id="V022" priority="high">
+        <description>경고 메시지 스타일</description>
+        <expected>주황색 좌측 테두리, 연한 주황 배경</expected>
+        <testMethod>주의사항 경고 메시지 확인</testMethod>
+      </item>
+      <item id="V023" priority="high">
+        <description>오류 메시지 스타일</description>
+        <expected>빨간색 좌측 테두리, 연한 빨간 배경</expected>
+        <testMethod>유효성 검사 오류 메시지 확인</testMethod>
+      </item>
+    </category>
+
+    <category name="테이블/데이터프레임">
+      <item id="V024" priority="medium">
+        <description>테이블 컨테이너 스타일</description>
+        <expected>둥근 모서리, 테두리</expected>
+        <testMethod>보고서 페이지 테이블 확인</testMethod>
+      </item>
+      <item id="V025" priority="medium">
+        <description>테이블 헤더 스타일</description>
+        <expected>회색 배경 #F2F2F7, 굵은 텍스트</expected>
+        <testMethod>테이블 헤더 행 확인</testMethod>
+      </item>
+    </category>
+
+    <category name="페이지별 확인">
+      <item id="V026" priority="critical">
+        <description>대시보드 스타일 적용</description>
+        <expected>통계 카드, 사이드바 스타일 적용</expected>
+        <testMethod>앱 시작 화면 확인</testMethod>
+      </item>
+      <item id="V027" priority="critical">
+        <description>계약 관리 페이지</description>
+        <expected>계약 목록 카드, 등록 폼, 탭 스타일</expected>
+        <testMethod>계약 관리 메뉴 진입 후 전체 확인</testMethod>
+      </item>
+      <item id="V028" priority="critical">
+        <description>월 청구 생성 페이지</description>
+        <expected>상태 배지, 메트릭 카드, 청구 목록 스타일</expected>
+        <testMethod>월 청구 생성 메뉴 진입 후 전체 확인</testMethod>
+      </item>
+      <item id="V029" priority="high">
+        <description>검증/경고 페이지</description>
+        <expected>경고 배지, 레벨별 색상 구분</expected>
+        <testMethod>검증/경고 메뉴 진입 후 전체 확인</testMethod>
+      </item>
+      <item id="V030" priority="high">
+        <description>보고서 페이지</description>
+        <expected>통계 카드, 차트, 테이블 스타일</expected>
+        <testMethod>보고서 메뉴 진입 후 전체 확인</testMethod>
+      </item>
+      <item id="V031" priority="medium">
+        <description>외주 관리 페이지</description>
+        <expected>카드, 폼 스타일</expected>
+        <testMethod>외주 관리 메뉴 진입 후 확인</testMethod>
+      </item>
+      <item id="V032" priority="medium">
+        <description>설정 페이지</description>
+        <expected>리스트 아이템, 폼 스타일</expected>
+        <testMethod>설정 메뉴 진입 후 확인</testMethod>
+      </item>
+    </category>
+
+    <category name="브라우저 호환성">
+      <item id="V033" priority="high">
+        <description>Chrome 브라우저 렌더링</description>
+        <expected>모든 스타일 정상 적용</expected>
+        <testMethod>Chrome에서 앱 실행 및 전체 페이지 확인</testMethod>
+      </item>
+      <item id="V034" priority="medium">
+        <description>Edge 브라우저 렌더링</description>
+        <expected>모든 스타일 정상 적용</expected>
+        <testMethod>Edge에서 앱 실행 및 전체 페이지 확인</testMethod>
+      </item>
+    </category>
+
+  </validationChecklist>
+
+</designSpec>

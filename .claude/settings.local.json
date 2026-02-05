@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pip install:*)",
+      "Bash(python -m pytest:*)",
+      "Bash(where python)",
+      "Bash(cmd.exe /c \"cd C:\\\\Users\\\\user\\\\claude-test && python -m pytest -v\")",
+      "Bash(ls:*)",
+      "Bash(py:*)"
+    ]
+  }
+}
