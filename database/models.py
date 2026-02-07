@@ -35,7 +35,10 @@ class Company(SQLModel, table=True):
     updated_at: datetime = Field(default_factory=datetime.now)
 
     # Relationships
-    contracts: List["Contract"] = Relationship(back_populates="company")
+    contracts: List["Contract"] = Relationship(
+        back_populates="company",
+        sa_relationship_kwargs={"foreign_keys": "Contract.company_id"}
+    )
 
 
 class Contract(SQLModel, table=True):
@@ -82,7 +85,10 @@ class Contract(SQLModel, table=True):
     updated_at: datetime = Field(default_factory=datetime.now)
 
     # Relationships
-    company: Optional[Company] = Relationship(back_populates="contracts")
+    company: Optional[Company] = Relationship(
+        back_populates="contracts",
+        sa_relationship_kwargs={"foreign_keys": "[Contract.company_id]"}
+    )
     history: List["ContractHistory"] = Relationship(back_populates="contract")
     billings: List["MonthlyBilling"] = Relationship(back_populates="contract")
     outsourcings: List["Outsourcing"] = Relationship(back_populates="contract")
@@ -226,7 +232,7 @@ class Holiday(SQLModel, table=True):
     __tablename__ = "holidays"
 
     id: Optional[int] = Field(default=None, primary_key=True)
-    date: date = Field(index=True, unique=True)
+    holiday_date: date = Field(index=True, unique=True)
     name: str
     is_recurring: bool = Field(default=False)  # 매년 반복 (음력 제외)
     created_at: datetime = Field(default_factory=datetime.now)

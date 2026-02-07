@@ -168,11 +168,19 @@ def parse_billing_timing(timing_text: str) -> dict:
             result['parsed'] = True
             break
 
-    # 특정 월 패턴 추출 (예: "3,6,9,12월", "6월,12월")
-    month_pattern = r'(\d+)월'
-    month_matches = re.findall(month_pattern, text)
-    if month_matches:
-        result['months'] = [int(m) for m in month_matches]
+    # 특정 월 패턴 추출 (예: "3,6,9,12월", "6월, 12월")
+    # 먼저 "숫자,숫자,...,숫자월" 패턴 시도 (콤마로 연결된 숫자 + 단일 월)
+    multi_month_pattern = r'((?:\d+\s*,\s*)+\d+)\s*월'
+    multi_match = re.search(multi_month_pattern, text)
+    if multi_match:
+        months_str = multi_match.group(1)
+        result['months'] = [int(m.strip()) for m in months_str.split(',')]
+    else:
+        # 개별 "N월" 패턴 (예: "6월, 12월")
+        month_pattern = r'(\d+)\s*월'
+        month_matches = re.findall(month_pattern, text)
+        if month_matches:
+            result['months'] = [int(m) for m in month_matches]
 
     # 연 2회 패턴
     if '연 2회' in text or '연2회' in text:

@@ -166,15 +166,15 @@ def sample_contract_with_outsourcing(session, sample_company, sample_outsourcing
 def sample_holidays(session):
     """샘플 휴일 데이터"""
     holidays = [
-        Holiday(date=date(2024, 1, 1), name="신정"),
-        Holiday(date=date(2024, 3, 1), name="삼일절"),
-        Holiday(date=date(2024, 5, 5), name="어린이날"),
-        Holiday(date=date(2024, 12, 25), name="성탄절"),
+        Holiday(holiday_date=date(2024, 1, 1), name="신정"),
+        Holiday(holiday_date=date(2024, 3, 1), name="삼일절"),
+        Holiday(holiday_date=date(2024, 5, 5), name="어린이날"),
+        Holiday(holiday_date=date(2024, 12, 25), name="성탄절"),
     ]
     for h in holidays:
         session.add(h)
     session.commit()
-    return [h.date for h in holidays]
+    return [h.holiday_date for h in holidays]
 
 
 @pytest.fixture

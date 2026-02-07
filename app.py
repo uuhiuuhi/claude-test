@@ -16,6 +16,7 @@ st.set_page_config(
 
 from database.connection import init_database, get_session
 from database.init_db import initialize_all
+from ui.styles import inject_global_css, warning_list_item, styled_alert
 from ui.contract_page import render_contract_page
 from ui.billing_page import render_billing_page
 from ui.outsourcing_page import render_outsourcing_page
@@ -42,22 +43,31 @@ def main():
     # 데이터베이스 초기화
     check_and_init_database()
 
+    # 전역 스타일 주입
+    inject_global_css()
+
     # 사이드바 메뉴
     st.sidebar.title("유지보수 관리 시스템")
     st.sidebar.write("관리팀 내부용")
 
+    menu_options = [
+        "대시보드",
+        "계약 관리",
+        "월 청구 생성",
+        "외주 관리",
+        "검증/경고",
+        "보고서",
+        "설정"
+    ]
+    default_menu = st.session_state.get('selected_menu', '대시보드')
+    default_index = menu_options.index(default_menu) if default_menu in menu_options else 0
+
     menu = st.sidebar.radio(
         "메뉴",
-        [
-            "대시보드",
-            "계약 관리",
-            "월 청구 생성",
-            "외주 관리",
-            "검증/경고",
-            "보고서",
-            "설정"
-        ]
+        menu_options,
+        index=default_index
     )
+    st.session_state['selected_menu'] = menu
 
     st.sidebar.write("---")
 
@@ -169,14 +179,18 @@ def render_dashboard():
                 warning_count = sum(1 for w in warnings if w.get('level') == 'warning')
 
                 if error_count > 0:
-                    st.error(f"오류: {error_count}건")
+                    styled_alert(f"오류: {error_count}건", level='error')
                 if warning_count > 0:
-                    st.warning(f"경고: {warning_count}건")
+                    styled_alert(f"경고: {warning_count}건", level='warning')
 
                 # 최근 경고 5개
                 for w in warnings[:5]:
-                    level_emoji = {'error': '❌', 'warning': '⚠️', 'info': 'ℹ️'}.get(w.get('level', 'info'), '❓')
-                    st.write(f"{level_emoji} {w.get('company_name', '')}: {w.get('message', '')}")
+                    warning_list_item(
+                        level=w.get('level', 'info'),
+                        code=w.get('code', ''),
+                        company_name=w.get('company_name', ''),
+                        message=w.get('message', '')
+                    )
             else:
                 st.success("경고 없음")
 
@@ -235,15 +249,18 @@ def render_dashboard():
 
         with col1:
             if st.button("이번 달 청구 생성", use_container_width=True):
-                st.switch_page = "월 청구 생성"  # Streamlit 1.30+ 에서 지원
+                st.session_state['selected_menu'] = "월 청구 생성"
+                st.rerun()
 
         with col2:
             if st.button("누락 점검", use_container_width=True):
-                st.switch_page = "검증/경고"
+                st.session_state['selected_menu'] = "검증/경고"
+                st.rerun()
 
         with col3:
             if st.button("엑셀 Export", use_container_width=True):
-                st.switch_page = "보고서"
+                st.session_state['selected_menu'] = "보고서"
+                st.rerun()
 
 
 if __name__ == "__main__":

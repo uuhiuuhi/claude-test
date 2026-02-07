@@ -8,6 +8,7 @@ from sqlmodel import select
 from database.connection import get_session
 from database.models import MonthlyBilling, Contract
 from services.validation_engine import ValidationEngine
+from ui.styles.components import warning_list_item, styled_alert
 
 
 def render_validation_page():
@@ -83,28 +84,11 @@ def render_monthly_warnings():
 
         # 경고 목록
         for w in filtered_warnings:
-            level = w.get('level', 'info')
-            level_emoji = {
-                'error': '❌',
-                'warning': '⚠️',
-                'info': 'ℹ️'
-            }.get(level, '❓')
-
-            level_color = {
-                'error': '#ff4444',
-                'warning': '#ffaa00',
-                'info': '#4488ff'
-            }.get(level, '#888888')
-
-            company_name = w.get('company_name', 'N/A')
-            code = w.get('code', '')
-            message = w.get('message', '')
-
-            st.markdown(
-                f"<div style='border-left: 4px solid {level_color}; padding-left: 10px; margin: 5px 0;'>"
-                f"<strong>{level_emoji} [{code}] {company_name}</strong><br/>"
-                f"{message}</div>",
-                unsafe_allow_html=True
+            warning_list_item(
+                level=w.get('level', 'info'),
+                code=w.get('code', ''),
+                company_name=w.get('company_name', 'N/A'),
+                message=w.get('message', '')
             )
 
 
@@ -142,7 +126,7 @@ def render_missing_check():
             if not missing_contracts:
                 st.success("누락된 청구가 없습니다.")
             else:
-                st.error(f"⚠️ 청구 누락 가능성: {len(missing_contracts)}건")
+                styled_alert(f"청구 누락 가능성: {len(missing_contracts)}건", level='error')
 
                 for contract in missing_contracts:
                     company = contract.company

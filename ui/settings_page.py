@@ -104,9 +104,9 @@ def render_holiday_settings():
         # 해당 연도 휴일 조회
         holidays = session.exec(
             select(Holiday).where(
-                Holiday.date >= date(holiday_year, 1, 1),
-                Holiday.date <= date(holiday_year, 12, 31)
-            ).order_by(Holiday.date)
+                Holiday.holiday_date >= date(holiday_year, 1, 1),
+                Holiday.holiday_date <= date(holiday_year, 12, 31)
+            ).order_by(Holiday.holiday_date)
         ).all()
 
         if holidays:
@@ -114,7 +114,7 @@ def render_holiday_settings():
             for holiday in holidays:
                 col1, col2, col3 = st.columns([2, 3, 1])
                 with col1:
-                    st.write(f"**{holiday.date}**")
+                    st.write(f"**{holiday.holiday_date}**")
                 with col2:
                     st.write(holiday.name)
                 with col3:
@@ -140,14 +140,14 @@ def render_holiday_settings():
                 else:
                     # 중복 체크
                     existing = session.exec(
-                        select(Holiday).where(Holiday.date == new_date)
+                        select(Holiday).where(Holiday.holiday_date == new_date)
                     ).first()
 
                     if existing:
                         st.error("이미 등록된 날짜입니다.")
                     else:
                         holiday = Holiday(
-                            date=new_date,
+                            holiday_date=new_date,
                             name=new_name,
                             is_recurring=is_recurring
                         )
@@ -237,7 +237,7 @@ def render_data_import():
     st.subheader("엑셀 데이터 Import")
 
     st.warning(
-        "⚠️ Import 전 주의사항:\n"
+        "Import 전 주의사항:\n"
         "- 기존 데이터와 중복되는 경우 오류가 발생할 수 있습니다.\n"
         "- 반드시 백업 후 진행하세요."
     )

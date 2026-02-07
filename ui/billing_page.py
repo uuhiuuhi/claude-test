@@ -11,6 +11,10 @@ from database.models import MonthlyBilling, Contract, Company
 from services.billing_engine import BillingEngine
 from services.validation_engine import ValidationEngine
 from utils.constants import BillingStatus
+from ui.styles.components import (
+    status_badge, status_label, alert_badge,
+    warning_list_item, render_status_badge
+)
 
 
 def render_billing_page():
@@ -100,10 +104,12 @@ def render_billing_generator():
                     if warnings:
                         st.warning(f"확인 필요: {len(warnings)}건")
                         for w in warnings[:10]:  # 최대 10개만 표시
-                            level_emoji = "⚠️" if w['level'] == 'warning' else "ℹ️"
-                            if w['level'] == 'error':
-                                level_emoji = "❌"
-                            st.write(f"{level_emoji} {w.get('company_name', '')}: {w['message']}")
+                            warning_list_item(
+                                level=w['level'],
+                                code='',
+                                company_name=w.get('company_name', ''),
+                                message=w['message']
+                            )
 
                         if len(warnings) > 10:
                             st.write(f"... 외 {len(warnings) - 10}건")
@@ -184,19 +190,15 @@ def render_billing_list():
             contract = billing.contract
             company = contract.company if contract else None
 
-            status_emoji = {
-                'draft': '📝',
-                'confirmed': '✅',
-                'locked': '🔒',
-                'cancelled': '❌'
-            }.get(billing.status, '❓')
-
-            warning_indicator = "⚠️" if billing.has_warnings else ""
+            sl = status_label(billing.status)
+            warning_text = " [경고]" if billing.has_warnings else ""
 
             with st.expander(
-                f"{status_emoji} {warning_indicator} {company.name if company else 'N/A'} - {contract.item_name if contract else 'N/A'} ({billing.final_amount:,.0f}원)",
+                f"[{sl}]{warning_text} {company.name if company else 'N/A'} - {contract.item_name if contract else 'N/A'} ({billing.final_amount:,.0f}원)",
                 expanded=False
             ):
+                render_status_badge(billing.status)
+
                 col1, col2 = st.columns(2)
 
                 with col1:
@@ -252,10 +254,12 @@ def render_billing_list():
                     try:
                         warnings = json.loads(billing.warnings)
                         for w in warnings:
-                            level_emoji = "⚠️" if w['level'] == 'warning' else "ℹ️"
-                            if w['level'] == 'error':
-                                level_emoji = "❌"
-                            st.write(f"{level_emoji} {w['message']}")
+                            warning_list_item(
+                                level=w['level'],
+                                code='',
+                                company_name='',
+                                message=w['message']
+                            )
                     except:
                         pass
 

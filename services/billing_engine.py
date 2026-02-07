@@ -238,11 +238,11 @@ class BillingEngine:
     def _get_holidays(self, year: int) -> List[date]:
         """해당 연도 휴일 조회"""
         statement = select(Holiday).where(
-            Holiday.date >= date(year, 1, 1),
-            Holiday.date <= date(year, 12, 31)
+            Holiday.holiday_date >= date(year, 1, 1),
+            Holiday.holiday_date <= date(year, 12, 31)
         )
         holidays = self.session.exec(statement).all()
-        return [h.date for h in holidays]
+        return [h.holiday_date for h in holidays]
 
     def save_billings(self, billings: List[MonthlyBilling]) -> List[MonthlyBilling]:
         """청구 저장"""

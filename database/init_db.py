@@ -25,7 +25,7 @@ def create_default_code_mappings(session):
 
 
 def create_default_holidays(session):
-    """기본 휴일 데이터 생성 (2024-2025)"""
+    """기본 휴일 데이터 생성 (2024-2026)"""
     holidays_2024 = [
         {"date": date(2024, 1, 1), "name": "신정", "is_recurring": True},
         {"date": date(2024, 2, 9), "name": "설날 연휴", "is_recurring": False},
@@ -65,13 +65,38 @@ def create_default_holidays(session):
         {"date": date(2025, 12, 25), "name": "성탄절", "is_recurring": True},
     ]
 
-    for holiday in holidays_2024 + holidays_2025:
+    holidays_2026 = [
+        {"date": date(2026, 1, 1), "name": "신정", "is_recurring": True},
+        {"date": date(2026, 2, 16), "name": "설날 연휴", "is_recurring": False},
+        {"date": date(2026, 2, 17), "name": "설날", "is_recurring": False},
+        {"date": date(2026, 2, 18), "name": "설날 연휴", "is_recurring": False},
+        {"date": date(2026, 3, 1), "name": "삼일절", "is_recurring": True},
+        {"date": date(2026, 3, 2), "name": "대체공휴일(삼일절)", "is_recurring": False},
+        {"date": date(2026, 5, 5), "name": "어린이날", "is_recurring": True},
+        {"date": date(2026, 5, 24), "name": "부처님오신날", "is_recurring": False},
+        {"date": date(2026, 5, 25), "name": "대체공휴일(부처님오신날)", "is_recurring": False},
+        {"date": date(2026, 6, 6), "name": "현충일", "is_recurring": True},
+        {"date": date(2026, 8, 15), "name": "광복절", "is_recurring": True},
+        {"date": date(2026, 8, 17), "name": "대체공휴일(광복절)", "is_recurring": False},
+        {"date": date(2026, 9, 24), "name": "추석 연휴", "is_recurring": False},
+        {"date": date(2026, 9, 25), "name": "추석", "is_recurring": False},
+        {"date": date(2026, 9, 26), "name": "추석 연휴", "is_recurring": False},
+        {"date": date(2026, 10, 3), "name": "개천절", "is_recurring": True},
+        {"date": date(2026, 10, 9), "name": "한글날", "is_recurring": True},
+        {"date": date(2026, 12, 25), "name": "성탄절", "is_recurring": True},
+    ]
+
+    for holiday in holidays_2024 + holidays_2025 + holidays_2026:
         existing = session.query(Holiday).filter(
-            Holiday.date == holiday["date"]
+            Holiday.holiday_date == holiday["date"]
         ).first()
 
         if not existing:
-            session.add(Holiday(**holiday))
+            session.add(Holiday(
+                holiday_date=holiday["date"],
+                name=holiday["name"],
+                is_recurring=holiday.get("is_recurring", False)
+            ))
 
     session.commit()
 
